@@ -1,4 +1,4 @@
-.container {
+/* .container {
   max-width: 100%;
   margin: auto;
   margin-top: 7%;
@@ -6,11 +6,11 @@
   padding: 30px;
   border-radius: 8px;
   margin: 5% 10% 0 10%;
-}
+} */
 
 /*Botão comentário enviar*/
 /* From Uiverse.io by eirikvold */
-button {
+/* button {
   width: 14%;
   margin-left: 85%;
   font-family: inherit;
@@ -68,11 +68,11 @@ button:hover .svg-wrapper {
 
 button:hover svg {
   transform: rotate(45deg);
-}
+} */
 
 
 /*Final código botão enviar*/
-h1 {
+/* h1 {
   text-align: center;
   color: #007DFC;
   margin-bottom: 20px;
@@ -222,4 +222,4 @@ textarea:focus {
 .colfooter:nth-of-type(3n+0) {
   margin-right: 0;
   border-right: 0;
-}
+} */

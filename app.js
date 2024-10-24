@@ -37,7 +37,7 @@ server.use(express.json()); // Adiciona o middleware para ler JSON
 server.use(express.urlencoded({ extended: true })); // Para dados de formulários
 server.use('/src', express.static(path.join(__dirname, '/src')));
 server.use('/db', express.static(path.join(__dirname, '/db')));
-server.use(auth(config));
+// server.use(auth(config));
 server.set('views', path.join(__dirname, '/views'));
 server.use(
     auth({

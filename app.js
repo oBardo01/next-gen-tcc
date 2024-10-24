@@ -39,7 +39,7 @@ server.use('/src', express.static(path.join(__dirname, '/src')));
 server.use('/db', express.static(path.join(__dirname, '/db')));
 server.use(auth(config));
 server.set('views', path.join(__dirname, '/views'));
-app.use(
+server.use(
     auth({
       issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
       baseURL: process.env.BASE_URL,

@@ -13,14 +13,14 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { auth } from 'express-openid-connect';
 
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: 'a long, randomly-generated string stored in env',
-  baseURL: 'https://next-gen-tcc-dev.vercel.app',
-  clientID: 'EAI1Fr8YM6fEmGG4mLvWsGgYVouV3KLV',
-  issuerBaseURL: 'https://dev-qe2zlywu54wnbchr.us.auth0.com'
-};
+// const config = {
+//   authRequired: false,
+//   auth0Logout: true,
+//   secret: 'a long, randomly-generated string stored in env',
+//   baseURL: 'https://next-gen-tcc-dev.vercel.app',
+//   clientID: 'EAI1Fr8YM6fEmGG4mLvWsGgYVouV3KLV',
+//   issuerBaseURL: 'https://dev-qe2zlywu54wnbchr.us.auth0.com'
+// };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

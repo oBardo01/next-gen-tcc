@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import pkg from 'express-openid-connect';
 const { auth } = pkg;
+const { requiresAuth } = pkg;
 
 const config = {
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
@@ -79,6 +80,10 @@ server.get('/:pagina', (request, reply) => {
 
 server.get('/login', (req, res) => {
     res.oidc.login();
+})
+
+server.get('/profile', requiresAuth(), (req, res) => {
+    res.send(JSON.stringify(req.oidc.user));
 })
 
 server.get('/test', async (req, res) => {

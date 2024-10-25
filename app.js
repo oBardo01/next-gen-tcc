@@ -54,6 +54,11 @@ server.set('views', path.join(__dirname, '/views'));
 
 // vmmt socorro deus.
 
+server.use(function (req, res, next) {
+  res.locals.user = req.oidc.user;
+  next();
+});
+
 server.get('/', async (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 })

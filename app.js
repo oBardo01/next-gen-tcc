@@ -76,12 +76,6 @@ server.get('/api/version', async (req, res) => {
 server.get('/testeAuth0', (req, res) => {
     res.send(req.oidc.isAuthenticated() ? 'Logged In' : 'Logged Out');
 })
-  
-server.get('/:pagina', (request, reply) => {
-    let pagina = request.params.pagina;
-    reply.render(`${pagina}`);
-    console.log(pagina)
-})
 
 server.get('/login', (req, res) => {
     res.oidc.login();
@@ -90,8 +84,14 @@ server.get('/login', (req, res) => {
 server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })
+  
+server.get('/:pagina', (request, reply) => {
+    let pagina = request.params.pagina;
+    reply.render(`${pagina}`);
+    console.log(pagina)
+})
 
-server.get('/callback', async (req, res) => {
+server.get('/test', async (req, res) => {
     res.render('test.html');
 })
 

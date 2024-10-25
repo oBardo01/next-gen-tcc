@@ -11,16 +11,16 @@ import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { auth } from 'express-openid-connect';
+import { auth, requiresAuth } from 'express-openid-connect';
 
-// const config = {
-//   authRequired: false,
-//   auth0Logout: true,
-//   secret: 'a long, randomly-generated string stored in env',
-//   baseURL: 'https://next-gen-tcc-dev.vercel.app',
-//   clientID: 'EAI1Fr8YM6fEmGG4mLvWsGgYVouV3KLV',
-//   issuerBaseURL: 'https://dev-qe2zlywu54wnbchr.us.auth0.com'
-// };
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.SESSION_SECRET,
+  baseURL: 'https://next-gen-tcc-dev.vercel.app',
+  clientID: 'EAI1Fr8YM6fEmGG4mLvWsGgYVouV3KLV',
+  issuerBaseURL: 'https://dev-qe2zlywu54wnbchr.us.auth0.com'
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -37,18 +37,18 @@ server.use(express.json()); // Adiciona o middleware para ler JSON
 server.use(express.urlencoded({ extended: true })); // Para dados de formulários
 server.use('/src', express.static(path.join(__dirname, '/src')));
 server.use('/db', express.static(path.join(__dirname, '/db')));
-// server.use(auth(config));
+server.use(auth(config));
 server.set('views', path.join(__dirname, '/views'));
-server.use(
-    auth({
-      issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-      baseURL: process.env.BASE_URL,
-      clientID: process.env.AUTH0_CLIENT_ID,
-      secret: process.env.SESSION_SECRET,
-      authRequired: false,
-      auth0Logout: true,
-    }),
-  );
+// server.use(
+//     auth({
+//       issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+//       baseURL: process.env.BASE_URL,
+//       clientID: process.env.AUTH0_CLIENT_ID,
+//       secret: process.env.SESSION_SECRET,
+//       authRequired: false,
+//       auth0Logout: true,
+//     }),
+//   );
 
 
 server.get('/', async (req, res) => {

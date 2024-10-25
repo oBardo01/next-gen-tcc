@@ -74,7 +74,7 @@ server.get('/api/version', async (req, res) => {
 });
 
 server.get('/callback', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? 'Login bem-sucedido' : 'Falha na autenticação');
+    res.redirect('/')
 });
   
 server.get('/testeAuth0', (req, res) => {

@@ -91,7 +91,7 @@ server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })
 
-server.get('/test', async (req, res) => {
+server.get('/callback', async (req, res) => {
     res.render('test.html');
 })
 

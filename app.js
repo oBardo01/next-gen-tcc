@@ -50,6 +50,7 @@ server.use(
     }),
   );
 
+  
 
 server.get('/', async (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
@@ -78,6 +79,8 @@ server.get('/:pagina', (request, reply) => {
 server.get('/test', async (req, res) => {
     res.render('test.html');
 })
+
+server.get('/login')
 
 server.post('/registrar', async (req, res) => {
     const dadosRegistro = req.body; // Dados do corpo da requisição

@@ -11,7 +11,9 @@ import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { auth } from 'express-openid-connect';
+import pkg from 'express-openid-connect';
+const { auth } = pkg;
+// const { requiresAuth } = pkg;
 
 const config = {
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,

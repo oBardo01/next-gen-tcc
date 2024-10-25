@@ -71,24 +71,25 @@ server.get('/api/version', async (req, res) => {
     } catch (err) {
       res.status(500).send('Erro ao consultar a versão do banco de dados.');
     }
-  });
+});
 
+server.get('/callback', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Login bem-sucedido' : 'Falha na autenticação');
+});
+  
 server.get('/testeAuth0', (req, res) => {
     res.send(req.oidc.isAuthenticated() ? 'Logged In' : 'Logged Out');
 })
 
 server.get('/login', (req, res) => {
-    res.oidc.login();
-})
+    res.oidc.login({
+        returnTo: '/',
+    });
+});
 
 server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })
-
-server.get('/callback', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? 'Logged In' : 'Logged Out');
-})
-  
 server.get('/:pagina', (request, reply) => {
     let pagina = request.params.pagina;
     reply.render(`${pagina}`);

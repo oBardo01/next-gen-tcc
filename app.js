@@ -11,7 +11,8 @@ import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { auth, requiresAuth } from 'express-openid-connect';
+import pkg from 'express-openid-connect';
+const {auth, requiresAuth} = pkg;
 
 const config = {
   authRequired: false,

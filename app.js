@@ -62,6 +62,7 @@ server.use(function (req, res, next) {
 
 server.get('/', async (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
+    console.log(config);
 })
 
 server.get('/api/version', async (req, res) => {

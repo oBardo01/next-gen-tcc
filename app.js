@@ -12,7 +12,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import pkg from 'express-openid-connect';
-const {auth, requiresAuth} = pkg;
+const { auth } = pkg;
 
 const config = {
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,

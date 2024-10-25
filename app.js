@@ -11,7 +11,7 @@ import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { auth } from 'express-openid-connect';
+import { auth, requiresAuth } from 'express-openid-connect';
 
 const config = {
   authRequired: false,
@@ -37,8 +37,8 @@ server.use(express.json()); // Adiciona o middleware para ler JSON
 server.use(express.urlencoded({ extended: true })); // Para dados de formulários
 server.use('/src', express.static(path.join(__dirname, '/src')));
 server.use('/db', express.static(path.join(__dirname, '/db')));
-server.use(auth(config));
 server.set('views', path.join(__dirname, '/views'));
+server.use(auth(config));
 // server.use(
 //     auth({
 //       issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
@@ -77,6 +77,10 @@ server.get('/:pagina', (request, reply) => {
 server.get('/test', async (req, res) => {
     res.render('test.html');
 })
+
+app.get('/profile', requiresAuth(), (req, res) => {
+    res.send(JSON.stringify(req.oidc.user, null, 2));
+  });
 
 server.post('/registrar', async (req, res) => {
     const dadosRegistro = req.body; // Dados do corpo da requisição

@@ -77,7 +77,7 @@ server.get('/:pagina', (request, reply) => {
     console.log(pagina)
 })
 
-server.get('/callback', async (req, res) => {
+server.get('/test', async (req, res) => {
     res.render('test.html');
 })
 

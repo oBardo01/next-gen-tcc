@@ -84,6 +84,10 @@ server.get('/login', (req, res) => {
 server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })
+
+server.get('/callback', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Logged In' : 'Logged Out');
+})
   
 server.get('/:pagina', (request, reply) => {
     let pagina = request.params.pagina;

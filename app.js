@@ -77,6 +77,11 @@ server.get('/:pagina', (request, reply) => {
     console.log(pagina)
 })
 
+server.get('/login', (req, res) => {
+    console.log('Redirecting to Auth0 with redirect_uri:', req.query.redirect_uri);
+    res.redirect(auth0LoginURL);
+})
+
 server.get('/test', async (req, res) => {
     res.render('test.html');
 })

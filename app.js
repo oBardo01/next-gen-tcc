@@ -15,12 +15,12 @@ import pkg from 'express-openid-connect';
 const {auth, requiresAuth} = pkg;
 
 const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: process.env.SESSION_SECRET,
-  baseURL: 'https://next-gen-tcc-dev.vercel.app',
-  clientID: 'EAI1Fr8YM6fEmGG4mLvWsGgYVouV3KLV',
-  issuerBaseURL: 'https://dev-qe2zlywu54wnbchr.us.auth0.com'
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+    baseURL: process.env.BASE_URL,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    secret: process.env.SESSION_SECRET,
+    authRequired: false,
+    auth0Logout: true,
 };
 
 const __filename = fileURLToPath(import.meta.url);

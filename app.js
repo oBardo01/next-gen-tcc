@@ -51,6 +51,7 @@ server.set('views', path.join(__dirname, '/views'));
 //     }),
 //   );
 
+// vmmt socorro deus
 
 server.get('/', async (req, res) => {
     res.sendFile(__dirname + '/views/index.html');

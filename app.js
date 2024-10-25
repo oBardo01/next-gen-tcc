@@ -78,8 +78,6 @@ server.get('/test', async (req, res) => {
     res.render('test.html');
 })
 
-server.get('/login')
-
 server.post('/registrar', async (req, res) => {
     const dadosRegistro = req.body; // Dados do corpo da requisição
     try {

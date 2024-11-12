@@ -11,18 +11,18 @@ import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import pkg from 'express-openid-connect';
-const { auth } = pkg;
-const { requiresAuth } = pkg;
+
+// const { auth } = require('express-openid-connect');
+import { auth } from 'express-openid-connect'
 
 const config = {
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-    baseURL: process.env.BASE_URL,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    secret: process.env.SESSION_SECRET,
     authRequired: false,
     auth0Logout: true,
-};
+    secret: process.env.SESSION_SECRET,
+    baseURL: 'https://next-gen-tcc-dev.vercel.app',
+    clientID: 'WQa67rfrm0R9hGCtu5tEAw5xrcJ3J5DD',
+    issuerBaseURL: 'https://dev-y24me3i7n71awllo.us.auth0.com'
+  };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -34,14 +34,13 @@ server.use(auth(config));
 
 server.engine('html', ejs.renderFile);
 server.set('view engine', 'html');
-// server.use(cors({
-//     origin: 'http://localhost:8080/cadastro.html'
-// }));
+
 server.use(express.json()); // Adiciona o middleware para ler JSON
 server.use(express.urlencoded({ extended: true })); // Para dados de formulários
 server.use('/src', express.static(path.join(__dirname, '/src')));
 server.use('/db', express.static(path.join(__dirname, '/db')));
 server.set('views', path.join(__dirname, '/views'));
+
 // server.use(
 //     auth({
 //       issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
@@ -53,45 +52,27 @@ server.set('views', path.join(__dirname, '/views'));
 //     }),
 //   );
 
-// vmmt socorro deus.
+server.get('/profile', requiresAuth(), (req, res) => {
+    res.send(JSON.stringify(req.oidc.user));
+})
 
-server.use(function (req, res, next) {
-  res.locals.user = req.oidc.user;
-  next();
-});
+server.get('/callback', (req, res)=>{
+    res.render('test.html');
+})
+
+server.get('/logout', (req, res)=>{
+    res.render('index.html');
+})
 
 server.get('/', async (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
     console.log(config);
 })
 
-server.get('/api/version', async (req, res) => {
-    try {
-      const result = await sql`SELECT version()`;
-      const { version } = result[0];
-      res.send(`PostgreSQL Version: ${version}`);
-    } catch (err) {
-      res.status(500).send('Erro ao consultar a versão do banco de dados.');
-    }
+server.get('/isLogged', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
-server.get('/callback', (req, res) => {
-    res.redirect('/')
-});
-  
-server.get('/testeAuth0', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? 'Logged In' : 'Logged Out');
-})
-
-server.get('/login', (req, res) => {
-    res.oidc.login({
-        returnTo: '/',
-    });
-});
-
-server.get('/profile', requiresAuth(), (req, res) => {
-    res.send(JSON.stringify(req.oidc.user));
-})
 server.get('/:pagina', (request, reply) => {
     let pagina = request.params.pagina;
     reply.render(`${pagina}`);

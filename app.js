@@ -6,14 +6,14 @@ import { DatabasePostgres } from './db/commands-db.js';
 import { sql } from './db/conn.js';
 
 import ejs from 'ejs';
-
 import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 // const { auth } = require('express-openid-connect');
-import { auth, requiresAuth } from 'express-openid-connect'
+import { auth } from 'express-openid-connect'
+import { requiresAuth } from 'express-openid-connect'
 
 const config = {
     authRequired: false,

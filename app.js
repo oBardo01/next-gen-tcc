@@ -13,14 +13,6 @@ import { dirname } from 'path';
 import pkg from 'express-openid-connect'
 
 const { auth, requiresAuth } = pkg
-const config = {
-    authRequired: false,
-    auth0Logout: true,
-    secret: process.env.SESSION_SECRET,
-    baseURL: process.env.BASE_URL,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
-  };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,7 +32,7 @@ server.use(auth({
         secure: process.env.NODE_ENV === 'production',  // Só envia cookies em conexões HTTPS (certifique-se de usar HTTPS em produção)
         sameSite: 'Lax',  // Evita ataques CSRF, configurando o comportamento de envio de cookies
         maxAge: 60 * 60 * 24 * 7,  // Expiração do cookie (7 dias)
-      }
+      },
   })
 );
 

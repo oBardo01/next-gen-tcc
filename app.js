@@ -17,9 +17,9 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.SESSION_SECRET,
-    baseURL: 'https://next-gen-tcc-dev.vercel.app',
-    clientID: 'WQa67rfrm0R9hGCtu5tEAw5xrcJ3J5DD',
-    issuerBaseURL: 'https://dev-y24me3i7n71awllo.us.auth0.com'
+    baseURL: process.env.BASE_URL,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
   };
 
 const __filename = fileURLToPath(import.meta.url);

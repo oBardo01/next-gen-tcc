@@ -10,10 +10,9 @@ import path from 'path';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
 import pkg from 'express-openid-connect'
-import { auth, requiresAuth } from pkg
 
+const { auth, requiresAuth } = pkg
 const config = {
     authRequired: false,
     auth0Logout: true,

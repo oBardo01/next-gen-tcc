@@ -55,7 +55,7 @@ server.get('/profile', requiresAuth(), (req, res) => {
 })
 
 server.get('/callback', (req, res)=>{
-    res.render('test.html');
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 })
 
 server.get('/logout', (req, res)=>{

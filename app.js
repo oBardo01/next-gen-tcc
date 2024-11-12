@@ -28,7 +28,21 @@ const database = new DatabasePostgres;
 const porta = 8080;
 const server = express();
 
-server.use(auth(config));
+server.use(auth({
+    authRequired: false,
+    auth0Logout: true,
+    secret: process.env.SESSION_SECRET,
+    baseURL: process.env.BASE_URL,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+    cookie: {
+        httpOnly: true,  // Impede que os cookies sejam acessados pelo JavaScript do cliente
+        secure: process.env.NODE_ENV === 'production',  // Só envia cookies em conexões HTTPS (certifique-se de usar HTTPS em produção)
+        sameSite: 'Lax',  // Evita ataques CSRF, configurando o comportamento de envio de cookies
+        maxAge: 60 * 60 * 24 * 7,  // Expiração do cookie (7 dias)
+      }
+  })
+);
 
 server.engine('html', ejs.renderFile);
 server.set('view engine', 'html');

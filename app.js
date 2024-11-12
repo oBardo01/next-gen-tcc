@@ -54,9 +54,11 @@ server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })
 
-server.get('/callback', (req, res)=>{
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-})
+server.get('/callback', (req, res) => {
+    console.log(req.oidc);  // Verifique se o id_token está presente em req.oidc
+    res.send('Callback');
+  });
+  
 
 server.get('/logout', (req, res)=>{
     res.render('index.html');

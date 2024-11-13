@@ -30,7 +30,10 @@ const config = {
     clientSecret: process.env.SESSION_SECRET,
     baseURL: process.env.BASE_URL,
     clientID: process.env.AUTH0_CLIENT_ID,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+    authorizationParams: {
+        scope: 'openid profile email', // Adicione os escopos necessários
+      }
 }
 
 server.use(

@@ -20,41 +20,35 @@ const database = new DatabasePostgres;
 const porta = 8080;
 const server = express();
 
+server.use(session({
+    secret: process.env.SESSION_SECRET,  // Use um segredo forte
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,  // Protege o cookie para que ele não seja acessível via JS
+        secure: process.env.NODE_ENV === 'production',  // Garantir que seja só enviado via HTTPS
+        sameSite: 'Lax',  // Protege contra CSRF
+        maxAge: 60 * 60 * 24 * 7,  // Cookies expiram após 7 dias
+    }
+}));
+
 server.use(auth({
     authRequired: false,
     auth0Logout: true,
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.AUTH0_SECRET,
     baseURL: process.env.BASE_URL,
     clientID: process.env.AUTH0_CLIENT_ID,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-    cookie: {
-        httpOnly: true,  // Impede que os cookies sejam acessados pelo JavaScript do cliente
-        secure: process.env.NODE_ENV === 'production',  // Só envia cookies em conexões HTTPS (certifique-se de usar HTTPS em produção)
-        sameSite: 'Lax',  // Evita ataques CSRF, configurando o comportamento de envio de cookies
-        maxAge: 60 * 60 * 24 * 7,  // Expiração do cookie (7 dias)
-      },
-  })
-);
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
+}));
 
 server.engine('html', ejs.renderFile);
 server.set('view engine', 'html');
-
 server.use(express.json()); // Adiciona o middleware para ler JSON
 server.use(express.urlencoded({ extended: true })); // Para dados de formulários
 server.use('/src', express.static(path.join(__dirname, '/src')));
 server.use('/db', express.static(path.join(__dirname, '/db')));
 server.set('views', path.join(__dirname, '/views'));
 
-// server.use(
-//     auth({
-//       issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-//       baseURL: process.env.BASE_URL,
-//       clientID: process.env.AUTH0_CLIENT_ID,
-//       secret: process.env.SESSION_SECRET,
-//       authRequired: false,
-//       auth0Logout: true,
-//     }),
-//   );
 
 server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
@@ -63,10 +57,10 @@ server.get('/profile', requiresAuth(), (req, res) => {
 server.get('/callback', (req, res) => {
     console.log(req.oidc);  // Verifique se o id_token está presente em req.oidc
     res.send('Callback');
-  });
-  
+});
 
-server.get('/logout', (req, res)=>{
+
+server.get('/logout', (req, res) => {
     res.render('index.html');
 })
 

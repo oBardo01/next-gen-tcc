@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import pgSession from 'connect-pg-session'
+import pgSession from 'connect-pg-session';
 import bodyParser from 'body-parser';
 // import cors from 'cors';
 import { DatabasePostgres } from './db/commands-db.js';
@@ -20,7 +20,8 @@ const __dirname = dirname(__filename);
 const database = new DatabasePostgres;
 const porta = 8080;
 const server = express();
-const PgSession = PgSession(session)
+
+const PgSession = pgSession(session);
 
 server.use(
     session({

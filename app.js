@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import pgSession from 'connect-pg-session';
+import pgSession from 'connect-pg-simple';
 import bodyParser from 'body-parser';
 // import cors from 'cors';
 import { DatabasePostgres } from './db/commands-db.js';

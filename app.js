@@ -23,6 +23,16 @@ const server = express();
 
 const PgSession = pgSession(session);
 
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: process.env.AUTH0_SECRET,
+    clientSecret: process.env.SESSION_SECRET,
+    baseURL: process.env.BASE_URL,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
+}
+
 server.use(
     session({
         store: new PgSession({
@@ -38,15 +48,7 @@ server.use(
         }
     }));
 
-server.use(auth({
-    authRequired: false,
-    auth0Logout: true,
-    secret: process.env.AUTH0_SECRET,
-    clientSecret: process.env.SESSION_SECRET,
-    baseURL: process.env.BASE_URL,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
-}));
+server.use(auth(config));
 
 server.engine('html', ejs.renderFile);
 server.set('view engine', 'html');
@@ -73,6 +75,7 @@ server.get('/logout', (req, res) => {
 
 server.get('/', async (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
+    console.log(config)
 })
 
 server.get('/isLogged', (req, res) => {

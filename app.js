@@ -1,5 +1,6 @@
 import express from 'express';
 import session from 'express-session';
+import pgSession from 'connect-pg-session'
 import bodyParser from 'body-parser';
 // import cors from 'cors';
 import { DatabasePostgres } from './db/commands-db.js';
@@ -19,23 +20,28 @@ const __dirname = dirname(__filename);
 const database = new DatabasePostgres;
 const porta = 8080;
 const server = express();
+const PgSession = PgSession(session)
 
-server.use(session({
-    secret: process.env.SESSION_SECRET,  // Use um segredo forte
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,  // Protege o cookie para que ele não seja acessível via JS
-        secure: process.env.NODE_ENV === 'production',  // Garantir que seja só enviado via HTTPS
-        sameSite: 'Lax',  // Protege contra CSRF
-        maxAge: 60 * 60 * 24 * 7,  // Cookies expiram após 7 dias
-    }
-}));
+server.use(
+    session({
+        store: new PgSession({
+            pool: process.env.DATABASE_URL,
+            tableName: 'session'
+        }),
+        secret: process.env.SESSION_SECRET,  // Use um segredo forte
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: process.env.NODE_ENV === 'production',  // Garantir que seja só enviado via HTTPS
+            maxAge: 60 * 60 * 24 * 7,  // Cookies expiram após 7 dias
+        }
+    }));
 
 server.use(auth({
     authRequired: false,
     auth0Logout: true,
     secret: process.env.AUTH0_SECRET,
+    clientSecret: process.env.SESSION_SECRET,
     baseURL: process.env.BASE_URL,
     clientID: process.env.AUTH0_CLIENT_ID,
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
@@ -66,7 +72,6 @@ server.get('/logout', (req, res) => {
 
 server.get('/', async (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
-    console.log(config);
 })
 
 server.get('/isLogged', (req, res) => {

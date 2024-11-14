@@ -36,20 +36,20 @@ const config = {
       }
 }
 
-server.use(
-    session({
-        store: new PgSession({
-            pool: process.env.DATABASE_URL,
-            tableName: 'session'
-        }),
-        secret: process.env.SESSION_SECRET,  // Use um segredo forte
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            secure: process.env.NODE_ENV === 'production',  // Garantir que seja só enviado via HTTPS
-            maxAge: 60 * 60 * 24 * 7,  // Cookies expiram após 7 dias
-        }
-    }));
+// server.use(
+//     session({
+//         store: new PgSession({
+//             pool: process.env.DATABASE_URL,
+//             tableName: 'session'
+//         }),
+//         secret: process.env.SESSION_SECRET,
+//         resave: false,
+//         saveUninitialized: false,
+//         cookie: {
+//             secure: process.env.NODE_ENV === 'production',
+//             maxAge: 60 * 60 * 24 * 7, 
+//         }
+//     }));
 
 server.use(auth(config));
 
@@ -70,7 +70,6 @@ server.get('/callback', (req, res) => {
     console.log(req.oidc);  // Verifique se o id_token está presente em req.oidc
     res.send('Callback');
 });
-
 
 server.get('/logout', (req, res) => {
     res.render('index.html');

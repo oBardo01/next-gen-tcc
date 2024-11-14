@@ -1,6 +1,6 @@
 import express from 'express';
-import session from 'express-session';
-import pgSession from 'connect-pg-simple';
+// import session from 'express-session';
+// import pgSession from 'connect-pg-simple';
 import bodyParser from 'body-parser';
 // import cors from 'cors';
 import { DatabasePostgres } from './db/commands-db.js';
@@ -21,7 +21,7 @@ const database = new DatabasePostgres;
 const porta = 8080;
 const server = express();
 
-const PgSession = pgSession(session);
+// const PgSession = pgSession(session);
 
 const config = {
     authRequired: false,

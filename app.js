@@ -62,6 +62,14 @@ server.use('/db', express.static(path.join(__dirname, '/db')));
 server.set('views', path.join(__dirname, '/views'));
 
 
+server.get('/login', (req, res) => {
+    res.oidc.login({ returnTo: '/profile' }); // Redireciona para o perfil após login
+  });
+
+server.get('/profile', requiresAuth(), (req, res) => {
+    res.send(JSON.stringify(req.oidc.user));
+})
+
 server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })

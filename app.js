@@ -70,10 +70,6 @@ server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })
 
-server.get('/profile', requiresAuth(), (req, res) => {
-    res.send(JSON.stringify(req.oidc.user));
-})
-
 server.get('/logout', (req, res) => {
     res.render('index.html');
 })

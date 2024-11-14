@@ -63,7 +63,7 @@ server.set('views', path.join(__dirname, '/views'));
 
 
 server.get('/login', (req, res) => {
-    res.oidc.login({ returnTo: '/profile' }); // Redireciona para o perfil após login
+    res.oidc.login({ returnTo: '/profile' });
   });
 
 server.get('/profile', requiresAuth(), (req, res) => {

@@ -74,8 +74,17 @@ server.get('/profile', requiresAuth(), (req, res) => {
 // })
 
 server.get('/callback', requiresAuth(), (req, res) => {
-    // res.send(JSON.stringify(req.oidc.user));
-    window.location.href('/')
+    try {
+        if (!req.oidc.isAuthenticated()) {
+            return res.redirect('/index')
+        }
+
+        console.log('User Info:', req.oidc.user);
+        res.redirect('/profile');
+    } catch (err) {
+        console.error('Erro no callback:', err);
+        res.status(500).send('Erro ao processar login');
+      } 
 })
 
 server.get('/', async (req, res) => {

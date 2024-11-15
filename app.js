@@ -61,20 +61,21 @@ server.use('/src', express.static(path.join(__dirname, '/src')));
 server.use('/db', express.static(path.join(__dirname, '/db')));
 server.set('views', path.join(__dirname, '/views'));
 
-server.get('/login', (req, res) => {
-    res.oidc.login({ returnTo: '/profile' });
-  });
+// server.get('/login', (req, res) => {
+//     res.oidc.login({ returnTo: '/profile' });
+//   });
 
 server.get('/profile', requiresAuth(), (req, res) => {
     res.send(JSON.stringify(req.oidc.user));
 })
 
-server.get('/logout', (req, res) => {
-    res.render('index.html');
-})
+// server.get('/logout', (req, res) => {
+//     res.render('index.html');
+// })
 
 server.get('/callback', requiresAuth(), (req, res) => {
-    res.send(JSON.stringify(req.oidc.user));
+    // res.send(JSON.stringify(req.oidc.user));
+    window.location.href('/')
 })
 
 server.get('/', async (req, res) => {
